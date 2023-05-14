@@ -1,0 +1,45 @@
+GET /residents
+Host: localhost:8080
+Content-Type: application/json
+
+###
+POST /residents HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+
+{
+   "name": "kim",
+   "registrationNumber": "960401-1234567",
+   "gender": "남",
+   "birthDate": "1996-04-01T00:00:00",
+   "birthPlaceCode": "병원",
+   "registrationBaseAddress": "경기도 이천시"
+}
+
+###
+POST /residents HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+
+{
+  "name": "song",
+  "registrationNumber": "580824-2222222",
+  "gender": "여",
+  "birthDate": "1958-08-24T00:00:00",
+  "birthPlaceCode": "자택",
+  "registrationBaseAddress": "충남 아산시"
+}
+
+###
+PUT /residents/8 HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+
+{
+  "name": "김주호",
+  "registrationNumber": "960401-1234567",
+  "gender": "남",
+  "birthDate": "1996-04-01T00:00:00",
+  "birthPlaceCode": "자택",
+  "registrationBaseAddress": "경기도 이천시"
+}

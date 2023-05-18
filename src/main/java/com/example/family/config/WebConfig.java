@@ -23,11 +23,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        // 기본으로 등록되는 MappingJackson2HttpMessageConverter 제거함
         converters.removeIf(MappingJackson2HttpMessageConverter.class::isInstance);
-        // bean으로 등록해놓은 objectMapper를 주입하여MappingJackson2HttpMessageConverter 생성
         HttpMessageConverter converter = new MappingJackson2HttpMessageConverter(objectMapper);
-        //추가
         converters.add(converter);
     }
 }

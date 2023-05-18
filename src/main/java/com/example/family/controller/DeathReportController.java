@@ -3,8 +3,8 @@ package com.example.family.controller;
 import com.example.family.domain.DeathEditForm;
 import com.example.family.domain.DeathReportForm;
 import com.example.family.entity.Resident;
+import com.example.family.repository.ResidentRepository;
 import com.example.family.service.ReportService;
-import com.example.family.service.ResidentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -22,17 +22,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/residents/{serialNumber}/death")
 public class DeathReportController {
-    private final ResidentService residentService;
+    private final ResidentRepository repository;
     private final ReportService reportService;
 
     @ModelAttribute
     private Resident getResident(@PathVariable int serialNumber) {
-        return residentService.getResident(serialNumber);
+        return repository.getReferenceById(serialNumber);
     }
 
     @PostMapping
     public HttpEntity<Void> insertDeathReport(@ModelAttribute Resident resident, @RequestBody DeathReportForm form) {
-        Resident targetResident = residentService.getResident(form.getTargetSerialNumber());
+        Resident targetResident = repository.getReferenceById(form.getTargetSerialNumber());
         reportService.insertDeathReport(resident, targetResident, form);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -40,14 +40,15 @@ public class DeathReportController {
     @PutMapping("{targetSerialNumber}")
     public HttpEntity<Void> editDeathReport(@ModelAttribute Resident resident, @PathVariable int targetSerialNumber,
                                             @RequestBody DeathEditForm form) {
-        Resident targetResident = residentService.getResident(targetSerialNumber);
+        Resident targetResident = repository.getReferenceById(targetSerialNumber);
         reportService.modifyDeathReport(resident, targetResident, form);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("{targetSerialNumber}")
     public HttpEntity<Void> deleteDeathReport(@ModelAttribute Resident resident, @PathVariable int targetSerialNumber) {
-        reportService.deleteDeathReport(resident.getSerialNumber(), targetSerialNumber);
+        Resident targetResident = repository.getReferenceById(targetSerialNumber);
+        reportService.deleteDeathReport(resident.getSerialNumber(), targetResident);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }

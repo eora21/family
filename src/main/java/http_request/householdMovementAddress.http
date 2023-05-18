@@ -1,0 +1,23 @@
+POST /household/2/movement
+Host: localhost:8080
+Content-Type: application/json
+
+{
+  "reportDate": "2023-05-18",
+  "address": "충남 아산"
+}
+
+###
+PUT /household/2/movement/20230518
+Host: localhost:8080
+Content-Type: application/json
+
+{
+  "address": "대전"
+}
+
+
+###
+DELETE /household/2/movement/20230518
+Host: localhost:8080
+Content-Type: application/json

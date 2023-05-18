@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,5 +40,11 @@ public class ResidentController {
     @GetMapping
     public HttpEntity<List<Resident>> findAll() {
         return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
+    }
+
+    @DeleteMapping("{serialNumber}")
+    public HttpEntity<Void> deleteResident(@PathVariable int serialNumber) {
+        service.deleteResident(serialNumber);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

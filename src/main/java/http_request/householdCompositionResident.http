@@ -1,0 +1,27 @@
+POST /household/2/composition
+Host: localhost:8080
+Content-Type: application/json
+
+{
+  "residentSerialNumber": "6",
+  "reportDate": "2023-05-18",
+  "householdRelationshipCode": "동거인",
+  "householdCompositionChangeReasonCode": "전입"
+}
+
+###
+PUT /household/2/composition/6
+Host: localhost:8080
+Content-Type: application/json
+
+{
+  "reportDate": "2023-05-18",
+  "householdRelationshipCode": "자녀",
+  "householdCompositionChangeReasonCode": "세대분리"
+}
+
+
+###
+DELETE /household/2/composition/6
+Host: localhost:8080
+Content-Type: application/json

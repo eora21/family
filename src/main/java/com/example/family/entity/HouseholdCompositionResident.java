@@ -1,14 +1,19 @@
 package com.example.family.entity;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -20,6 +25,8 @@ import java.time.LocalDate;
 @Getter
 @Table(name = "household_composition_resident")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@AllArgsConstructor
 public class HouseholdCompositionResident {
 
     @EmbeddedId
@@ -35,24 +42,27 @@ public class HouseholdCompositionResident {
     @JoinColumn(name = "resident_serial_number")
     private Resident resident;
 
+    @Setter
     @Column(name = "report_date")
     private LocalDate reportDate;
 
+    @Setter
+    @Enumerated(EnumType.STRING)
     @Column(name = "household_relationship_code")
     private RelationshipCode relationshipCode;
 
+    @Setter
+    @Enumerated(EnumType.STRING)
     @Column(name = "household_composition_change_reason_code")
     private CompositionChangeReasonCode compositionChangeReasonCode;
 
     @Getter
     @Embeddable
     @EqualsAndHashCode
-    @NoArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor
     public static class HouseholdResidentPk implements Serializable {
-        @Column(name = "household_serial_number")
         Integer householdSerialNumber;
-
-        @Column(name = "resident_serial_number")
         Integer residentSerialNumber;
     }
 

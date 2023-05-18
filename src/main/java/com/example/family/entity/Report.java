@@ -12,6 +12,8 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -44,10 +46,12 @@ public class Report {
     private LocalDate reportDate;
 
     @Setter
+    @Enumerated(EnumType.STRING)
     @Column(name = "birth_report_qualifications_code")
     private BirthReportQualificationsCode birthReportQualificationsCode;
 
     @Setter
+    @Enumerated(EnumType.STRING)
     @Column(name = "death_report_qualifications_code")
     private DeathReportQualificationsCode deathReportQualificationsCode;
 
@@ -64,13 +68,12 @@ public class Report {
     @AllArgsConstructor
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class ReportPk implements Serializable {
+        @Enumerated(EnumType.STRING)
         @Column(name = "birth_death_type_code")
         private TypeCode typeCode;
 
-        @Column(name = "resident_serial_number")
         private Integer residentSerialNumber;
 
-        @Column(name = "report_resident_serial_number")
         private Integer reportResidentSerialNumber;
     }
 

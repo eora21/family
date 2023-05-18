@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,6 +34,7 @@ public class Household {
     @Column(name = "household_composition_date")
     private LocalDate compositionDate;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "household_composition_reason_code")
     private CompositionReasonCode compositionReasonCode;
 
@@ -39,7 +42,7 @@ public class Household {
     private String currentAddress;
 
     public enum CompositionReasonCode {
-        세대분리
+        세대분리,
     }
 
     @Builder

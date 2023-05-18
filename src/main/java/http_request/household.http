@@ -1,0 +1,15 @@
+POST /household
+Host: localhost:8080
+Content-Type: application/json
+
+{
+  "serialNumber": 7,
+  "compositionDate": "2023-05-17",
+  "compositionReasonCode": "세대분리",
+  "currentAddress": "충남 아산"
+}
+
+###
+DELETE /household/2
+Host: localhost:8080
+Content-Type: application/json

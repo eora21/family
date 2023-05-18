@@ -2,36 +2,36 @@ package com.example.family.service;
 
 import com.example.family.domain.ResidentForm;
 import com.example.family.entity.Resident;
+import com.example.family.repository.HouseholdCompositionResidentRepository;
+import com.example.family.repository.HouseholdRepository;
 import com.example.family.repository.ResidentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ResidentService {
-    private final ResidentRepository repository;
+    private final ResidentRepository residentRepository;
+    private final HouseholdRepository householdRepository;
+    private final HouseholdCompositionResidentRepository householdCompositionResidentRepository;
 
-    public void saveResident(ResidentForm residentForm) {
-        repository.save(residentForm.toEntity());
+    public Resident saveResident(ResidentForm residentForm) {
+        return residentRepository.save(residentForm.toEntity());
     }
 
+    @Transactional(readOnly = true)
     public List<Resident> findAll() {
-        return repository.findAll();
+        return residentRepository.findAll();
     }
 
-    public Resident getResident(int id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 id값에 일치하는 주민이 없습니다."));
-    }
-
-    @Transactional
     public void modifyResident(int serialNumber, ResidentForm residentForm) {
-        Resident resident = getResident(serialNumber);
+        Resident resident = residentRepository.getReferenceById(serialNumber);
         updateResident(residentForm, resident);
-        repository.save(resident);
+        residentRepository.save(resident);
     }
 
     private static void updateResident(ResidentForm residentForm, Resident resident) {
@@ -41,5 +41,15 @@ public class ResidentService {
         resident.setBirthDate(residentForm.getBirthDate());
         resident.setBirthPlaceCode(residentForm.getBirthPlaceCode());
         resident.setRegistrationBaseAddress(residentForm.getRegistrationBaseAddress());
+    }
+
+    public void deleteResident(int residentSerialNumber) {
+        if (residentRepository.hasFamily(residentSerialNumber)) {
+            throw new IllegalStateException("남은 가족이 있어 삭제가 불가능합니다.");
+        }
+
+        householdCompositionResidentRepository.deleteByResident_serialNumber(residentSerialNumber);
+        householdRepository.deleteByResident_serialNumber(residentSerialNumber);
+        residentRepository.deleteById(residentSerialNumber);
     }
 }

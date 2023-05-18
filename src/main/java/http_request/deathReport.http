@@ -1,0 +1,32 @@
+POST /residents/4/death
+Host: localhost:8080
+Content-Type: application/json
+
+{
+  "targetSerialNumber": 2,
+  "reportDate": "2023-05-18",
+  "deathReportQualificationsCode": "동거친족",
+  "phoneNumber": "010-1234-5678",
+  "deathDate": "2023-05-17T08:11:00",
+  "deathPlaceCode": "농장",
+  "deathPlaceAddress": "전북"
+}
+
+###
+PUT /residents/4/death/2
+Host: localhost:8080
+Content-Type: application/json
+
+{
+  "reportDate": "2023-05-18",
+  "deathReportQualificationsCode": "동거친족",
+  "phoneNumber": "010-2345-6789",
+  "deathDate": "2023-05-17T08:11:00",
+  "deathPlaceCode": "농장",
+  "deathPlaceAddress": "전북 농장"
+}
+
+###
+DELETE /residents/4/death/2
+Host: localhost:8080
+Content-Type: application/json

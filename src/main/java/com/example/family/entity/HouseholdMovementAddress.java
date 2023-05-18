@@ -12,6 +12,8 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -39,8 +41,9 @@ public class HouseholdMovementAddress {
     private String address;
 
     @Setter
+    @Enumerated(EnumType.STRING)
     @Column(name = "last_address_yn")
-    private boolean lastAddress;
+    private LastAddress lastAddress;
 
     @Getter
     @Embeddable
@@ -51,7 +54,10 @@ public class HouseholdMovementAddress {
         @Column(name = "house_movement_report_date")
         private LocalDate reportDate;
 
-        @Column(name = "household_serial_number")
         private Integer householdSerialNumber;
+    }
+
+    public enum LastAddress {
+        Y, N
     }
 }

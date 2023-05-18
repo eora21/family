@@ -7,15 +7,23 @@ import com.example.family.domain.DeathReportForm;
 import com.example.family.entity.Report;
 import com.example.family.entity.Resident;
 import com.example.family.repository.ReportRepository;
+import com.example.family.repository.ResidentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class ReportService {
-    private final ReportRepository repository;
+    private final ResidentService residentService;
+    private final ReportRepository reportRepository;
+    private final ResidentRepository residentRepository;
 
-    public void insertBirthReport(Resident reportResident, Resident targetResident, BirthReportForm form) {
+    @Transactional
+    public void insertBirthReport(Resident reportResident, BirthReportForm form) {
+        Resident targetResident = residentService.saveResident(form.getResidentForm());
+
         Report report = Report.builder()
                 .pk(new Report.ReportPk(
                         Report.TypeCode.출생, targetResident.getSerialNumber(), reportResident.getSerialNumber()))
@@ -27,11 +35,11 @@ public class ReportService {
                 .phoneNumber(form.getPhoneNumber())
                 .build();
 
-        repository.save(report);
+        reportRepository.save(report);
     }
 
     public Report getReport(Report.TypeCode typeCode, int targetResidentSerialNumber, int reportResidentSerialNumber) {
-        return repository.findById(new Report.ReportPk(
+        return reportRepository.findById(new Report.ReportPk(
                 typeCode, targetResidentSerialNumber, reportResidentSerialNumber))
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 관계가 없습니다."));
     }
@@ -41,7 +49,7 @@ public class ReportService {
         Report report =
                 getReport(Report.TypeCode.출생, targetResident.getSerialNumber(), reportResident.getSerialNumber());
         updateBirthReport(report, form);
-        repository.save(report);
+        reportRepository.save(report);
     }
 
     private void updateBirthReport(Report report, BirthEditForm form) {
@@ -53,10 +61,19 @@ public class ReportService {
 
     public void deleteBirthReport(int serialNumber, int targetSerialNumber) {
         Report report = getReport(Report.TypeCode.출생, targetSerialNumber, serialNumber);
-        repository.delete(report);
+        reportRepository.delete(report);
+
+        residentRepository.deleteById(targetSerialNumber);
     }
 
+    @Transactional
     public void insertDeathReport(Resident reportResident, Resident targetResident, DeathReportForm form) {
+        targetResident.setDeathDate(form.getDeathDate());
+        targetResident.setDeathPlaceCode(form.getDeathPlaceCode());
+        targetResident.setDeathPlaceAddress(form.getDeathPlaceAddress());
+
+        residentRepository.save(targetResident);
+
         Report report = Report.builder()
                 .pk(new Report.ReportPk(
                         Report.TypeCode.사망, targetResident.getSerialNumber(), reportResident.getSerialNumber()))
@@ -68,14 +85,20 @@ public class ReportService {
                 .phoneNumber(form.getPhoneNumber())
                 .build();
 
-        repository.save(report);
+        reportRepository.save(report);
     }
 
     public void modifyDeathReport(Resident reportResident, Resident targetResident, DeathEditForm form) {
+        targetResident.setDeathDate(form.getDeathDate());
+        targetResident.setDeathPlaceCode(form.getDeathPlaceCode());
+        targetResident.setDeathPlaceAddress(form.getDeathPlaceAddress());
+
+        residentRepository.save(targetResident);
+
         Report report =
                 getReport(Report.TypeCode.사망, targetResident.getSerialNumber(), reportResident.getSerialNumber());
         updateDeathReport(report, form);
-        repository.save(report);
+        reportRepository.save(report);
     }
 
     private void updateDeathReport(Report report, DeathEditForm form) {
@@ -85,8 +108,14 @@ public class ReportService {
         report.setPhoneNumber(form.getPhoneNumber());
     }
 
-    public void deleteDeathReport(int serialNumber, int targetSerialNumber) {
-        Report report = getReport(Report.TypeCode.사망, targetSerialNumber, serialNumber);
-        repository.delete(report);
+    public void deleteDeathReport(int serialNumber, Resident targetResident) {
+        targetResident.setDeathDate(null);
+        targetResident.setDeathPlaceCode(null);
+        targetResident.setDeathPlaceAddress(null);
+
+        residentRepository.save(targetResident);
+
+        Report report = getReport(Report.TypeCode.사망, targetResident.getSerialNumber(), serialNumber);
+        reportRepository.delete(report);
     }
 }

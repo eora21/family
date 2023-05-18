@@ -14,6 +14,15 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema nation
 -- -----------------------------------------------------
+
+DROP TABLE IF EXISTS `nation`.`resident`;
+DROP TABLE IF EXISTS `nation`.`birth_death_report_resident`;
+DROP TABLE IF EXISTS `nation`.`certificate_issue`;
+DROP TABLE IF EXISTS `nation`.`family_relationship`;
+DROP TABLE IF EXISTS `nation`.`household`;
+DROP TABLE IF EXISTS `nation`.`household_composition_resident`;
+DROP TABLE IF EXISTS `nation`.`household_movement_address`;
+
 CREATE SCHEMA IF NOT EXISTS `nation` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
 USE `nation` ;
 
@@ -22,8 +31,8 @@ USE `nation` ;
 -- -----------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `nation`.`resident` (
-                                                   `resident_serial_number` INT NOT NULL,
-                                                   `name` VARCHAR(100) NOT NULL,
+    `resident_serial_number` INT NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(100) NOT NULL,
     `resident_registration_number` VARCHAR(300) NOT NULL,
     `gender_code` VARCHAR(20) NOT NULL,
     `birth_date` DATETIME NOT NULL,
@@ -44,16 +53,16 @@ CREATE TABLE IF NOT EXISTS `nation`.`resident` (
 CREATE TABLE IF NOT EXISTS `nation`.`birth_death_report_resident` (
     `birth_death_type_code` VARCHAR(20) NOT NULL,
     `resident_serial_number` INT NOT NULL,
-    `resident_resident_serial_number` INT NOT NULL,
+    `report_resident_serial_number` INT NOT NULL,
     `birth_death_report_date` DATE NOT NULL,
     `birth_report_qualifications_code` VARCHAR(20) NULL DEFAULT NULL,
     `death_report_qualifications_code` VARCHAR(20) NULL DEFAULT NULL,
     `email_address` VARCHAR(50) NULL DEFAULT NULL,
     `phone_number` VARCHAR(20) NOT NULL,
-    PRIMARY KEY (`birth_death_type_code`, `resident_serial_number`, `resident_resident_serial_number`),
-    INDEX `fk_birth_death_report_resident_resident1_idx` (`resident_resident_serial_number` ASC) VISIBLE,
+    PRIMARY KEY (`birth_death_type_code`, `resident_serial_number`, `report_resident_serial_number`),
+    INDEX `fk_birth_death_report_resident_resident1_idx` (`report_resident_serial_number` ASC) VISIBLE,
     CONSTRAINT `fk_birth_death_report_resident_resident1`
-    FOREIGN KEY (`resident_resident_serial_number`)
+    FOREIGN KEY (`report_resident_serial_number`)
     REFERENCES `nation`.`resident` (`resident_serial_number`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -66,14 +75,14 @@ CREATE TABLE IF NOT EXISTS `nation`.`birth_death_report_resident` (
 -- Table `nation`.`certificate_issue`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `nation`.`certificate_issue` (
-                                                            `certificate_confirmation_number` BIGINT NOT NULL,
-                                                            `resident_resident_serial_number` INT NOT NULL,
-                                                            `certificate_type_code` VARCHAR(20) NOT NULL,
+    `certificate_confirmation_number` BIGINT NOT NULL AUTO_INCREMENT,
+    `resident_serial_number` INT NOT NULL,
+    `certificate_type_code` VARCHAR(20) NOT NULL,
     `certificate_issue_date` DATE NOT NULL,
     PRIMARY KEY (`certificate_confirmation_number`),
-    INDEX `fk_certificate_issue_resident1_idx` (`resident_resident_serial_number` ASC) VISIBLE,
+    INDEX `fk_certificate_issue_resident1_idx` (`resident_serial_number` ASC) VISIBLE,
     CONSTRAINT `fk_certificate_issue_resident1`
-    FOREIGN KEY (`resident_resident_serial_number`)
+    FOREIGN KEY (`resident_serial_number`)
     REFERENCES `nation`.`resident` (`resident_serial_number`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -86,13 +95,17 @@ CREATE TABLE IF NOT EXISTS `nation`.`certificate_issue` (
 -- Table `nation`.`family_relationship`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `nation`.`family_relationship` (
-                                                              `base_resident_serial_number` INT NOT NULL,
-                                                              `resident_resident_serial_number` INT NOT NULL,
-                                                              `family_relationship_code` VARCHAR(20) NOT NULL,
-    PRIMARY KEY (`base_resident_serial_number`, `resident_resident_serial_number`),
-    INDEX `fk_family_relationship_resident1_idx` (`resident_resident_serial_number` ASC) VISIBLE,
+    `base_resident_serial_number` INT NOT NULL,
+    `family_resident_serial_number` INT NOT NULL,
+    `family_relationship_code` VARCHAR(20) NOT NULL,
+    PRIMARY KEY (`base_resident_serial_number`, `family_resident_serial_number`),
+    INDEX `fk_family_relationship_resident1_idx` (`family_resident_serial_number` ASC) VISIBLE,
     CONSTRAINT `fk_family_relationship_resident1`
-    FOREIGN KEY (`resident_resident_serial_number`)
+    FOREIGN KEY (`base_resident_serial_number`)
+    REFERENCES `nation`.`resident` (`resident_serial_number`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+    FOREIGN KEY (`family_resident_serial_number`)
     REFERENCES `nation`.`resident` (`resident_serial_number`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -105,15 +118,15 @@ CREATE TABLE IF NOT EXISTS `nation`.`family_relationship` (
 -- Table `nation`.`household`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `nation`.`household` (
-                                                    `household_serial_number` INT NOT NULL,
-                                                    `resident_resident_serial_number` INT NOT NULL,
-                                                    `household_composition_date` DATE NOT NULL,
-                                                    `household_composition_reason_code` VARCHAR(20) NOT NULL,
+    `household_serial_number` INT NOT NULL AUTO_INCREMENT,
+    `household_resident_serial_number` INT NOT NULL,
+    `household_composition_date` DATE NOT NULL,
+    `household_composition_reason_code` VARCHAR(20) NOT NULL,
     `current_house_movement_address` VARCHAR(500) NOT NULL,
     PRIMARY KEY (`household_serial_number`),
-    INDEX `fk_household_resident1_idx` (`resident_resident_serial_number` ASC) VISIBLE,
+    INDEX `fk_household_resident1_idx` (`household_resident_serial_number` ASC) VISIBLE,
     CONSTRAINT `fk_household_resident1`
-    FOREIGN KEY (`resident_resident_serial_number`)
+    FOREIGN KEY (`household_resident_serial_number`)
     REFERENCES `nation`.`resident` (`resident_serial_number`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -126,21 +139,21 @@ CREATE TABLE IF NOT EXISTS `nation`.`household` (
 -- Table `nation`.`household_composition_resident`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `nation`.`household_composition_resident` (
-                                                                         `household_household_serial_number` INT NOT NULL,
-                                                                         `resident_resident_serial_number` INT NOT NULL,
-                                                                         `report_date` DATE NOT NULL,
-                                                                         `household_relationship_code` VARCHAR(20) NOT NULL,
+    `household_serial_number` INT NOT NULL,
+    `resident_serial_number` INT NOT NULL,
+    `report_date` DATE NOT NULL,
+    `household_relationship_code` VARCHAR(20) NOT NULL,
     `household_composition_change_reason_code` VARCHAR(20) NOT NULL,
-    PRIMARY KEY (`household_household_serial_number`, `resident_resident_serial_number`),
-    INDEX `fk_household_composition_resident_household_idx` (`household_household_serial_number` ASC) VISIBLE,
-    INDEX `fk_household_composition_resident_resident1_idx` (`resident_resident_serial_number` ASC) VISIBLE,
+    PRIMARY KEY (`household_serial_number`, `resident_serial_number`),
+    INDEX `fk_household_composition_resident_household_idx` (`household_serial_number` ASC) VISIBLE,
+    INDEX `fk_household_composition_resident_resident1_idx` (`resident_serial_number` ASC) VISIBLE,
     CONSTRAINT `fk_household_composition_resident_household`
-    FOREIGN KEY (`household_household_serial_number`)
+    FOREIGN KEY (`household_serial_number`)
     REFERENCES `nation`.`household` (`household_serial_number`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
     CONSTRAINT `fk_household_composition_resident_resident1`
-    FOREIGN KEY (`resident_resident_serial_number`)
+    FOREIGN KEY (`resident_serial_number`)
     REFERENCES `nation`.`resident` (`resident_serial_number`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -153,14 +166,14 @@ CREATE TABLE IF NOT EXISTS `nation`.`household_composition_resident` (
 -- Table `nation`.`household_movement_address`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `nation`.`household_movement_address` (
-                                                                     `house_movement_report_date` DATE NOT NULL,
-                                                                     `household_household_serial_number` INT NOT NULL,
-                                                                     `house_movement_address` VARCHAR(500) NOT NULL,
+    `house_movement_report_date` DATE NOT NULL,
+    `household_serial_number` INT NOT NULL,
+    `house_movement_address` VARCHAR(500) NOT NULL,
     `last_address_yn` VARCHAR(1) NOT NULL DEFAULT 'Y',
-    PRIMARY KEY (`house_movement_report_date`, `household_household_serial_number`),
-    INDEX `fk_household_movement_address_household1_idx` (`household_household_serial_number` ASC) VISIBLE,
+    PRIMARY KEY (`house_movement_report_date`, `household_serial_number`),
+    INDEX `fk_household_movement_address_household1_idx` (`household_serial_number` ASC) VISIBLE,
     CONSTRAINT `fk_household_movement_address_household1`
-    FOREIGN KEY (`household_household_serial_number`)
+    FOREIGN KEY (`household_serial_number`)
     REFERENCES `nation`.`household` (`household_serial_number`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -189,7 +202,7 @@ commit;
 
 -- 4. birth_death_report_resident 테이블 데이터 추가
 insert into birth_death_report_resident values ('출생', 7, 4, '20120317', '부', null, 'nam@nhnad.co.kr', '010-1234-5678');
-insert into birth_death_report_resident values ('사망', 1, 2, '20200502', '비동거친족', null, null, '010-2345-6789');
+insert into birth_death_report_resident values ('사망', 1, 2, '20200502', null, '비동거친족', null, '010-2345-6789');
 
 commit;
 

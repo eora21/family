@@ -1,0 +1,35 @@
+POST /residents/4/birth
+Host: localhost:8080
+Content-Type: application/json
+
+{
+  "reportDate": "2023-05-17",
+  "birthReportQualificationsCode": "기타",
+  "email": "email@email.com",
+  "phoneNumber": "010-2222-3333",
+  "residentForm": {
+    "name": "송제하",
+    "registrationNumber": "960401-1234567",
+    "gender": "남",
+    "birthDate": "2023-05-17T00:00:00",
+    "birthPlaceCode": "병원",
+    "registrationBaseAddress": "광주광역시"
+  }
+}
+
+###
+PUT /residents/4/birth/8
+Host: localhost:8080
+Content-Type: application/json
+
+{
+  "reportDate": "2023-05-17",
+  "birthReportQualificationsCode": "기타",
+  "email": "edit@email.com",
+  "phoneNumber": "010-1111-2222"
+}
+
+###
+DELETE /residents/4/birth/8
+Host: localhost:8080
+Content-Type: application/json

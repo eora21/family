@@ -1,13 +1,12 @@
 package com.example.family.entity;
 
-import com.example.family.domain.ResidentForm;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -15,8 +14,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,45 +27,58 @@ public class Resident {
     @Id
     @Column(name = "resident_serial_number")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer serialNumber;
+    private Integer serialNumber;
 
     @Setter
     @Column
-    String name;
+    private String name;
 
     @Setter
     @Column(name = "resident_registration_number")
-    String registrationNumber;
+    private String registrationNumber;
 
     @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "gender_code")
-    Gender gender;
+    private Gender gender;
 
     @Setter
     @Column(name = "birth_date")
-    LocalDateTime birthDate;
+    private LocalDateTime birthDate;
 
     @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "birth_place_code")
-    BirthPlace birthPlaceCode;
+    private BirthPlace birthPlaceCode;
 
     @Setter
     @Column(name = "registration_base_address")
-    String registrationBaseAddress;
+    private String registrationBaseAddress;
 
     @Setter
     @Column(name = "death_date")
-    LocalDateTime deathDate;
+    private LocalDateTime deathDate;
 
     @Setter
+    @Enumerated(EnumType.STRING)
     @Column(name = "death_place_code")
-    String deathPlaceCode;
+    private DeathPlace deathPlaceCode;
 
     @Setter
     @Column(name = "death_place_address")
-    String deathPlaceAddress;
+    private String deathPlaceAddress;
+
+    @OneToMany(mappedBy = "familyResident", cascade = CascadeType.REMOVE)
+    private List<FamilyRelationship> familyRelationships;
+
+    @OneToMany(mappedBy = "baseResident", cascade = CascadeType.REMOVE)
+    private List<FamilyRelationship> baseRelationships;
+
+    @OneToMany(mappedBy = "resident", cascade = CascadeType.REMOVE)
+    private List<Report> reports;
+
+    @OneToMany(mappedBy = "reportResident", cascade = CascadeType.REMOVE)
+    private List<Report> myReports;
 
     public enum Gender {
         남, 여
@@ -72,6 +86,10 @@ public class Resident {
 
     public enum BirthPlace {
         자택, 병원, 기타
+    }
+
+    public enum DeathPlace {
+        주택, 의료기관, 사회복지시설, 산업장, 공공시설, 도로, 상업서비스시설, 농장, 병원이송중사망, 기타
     }
 
 

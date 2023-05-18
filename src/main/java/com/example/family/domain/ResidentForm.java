@@ -1,20 +1,23 @@
 package com.example.family.domain;
 
 import com.example.family.entity.Resident;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class ResidentForm {
-    private final String name;
-    private final String registrationNumber;
-    private final Resident.Gender gender;
-    private final LocalDateTime birthDate;
-    private final Resident.BirthPlace birthPlaceCode;
-    private final String registrationBaseAddress;
+    private String name;
+    private String registrationNumber;
+    private Resident.Gender gender;
+    private LocalDateTime birthDate;
+    private Resident.BirthPlace birthPlaceCode;
+    private String registrationBaseAddress;
 
     public Resident toEntity() {
         return Resident.builder()

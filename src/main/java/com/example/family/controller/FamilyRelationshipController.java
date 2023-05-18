@@ -3,8 +3,8 @@ package com.example.family.controller;
 import com.example.family.domain.FamilyRelationshipForm;
 import com.example.family.entity.FamilyRelationship;
 import com.example.family.entity.Resident;
+import com.example.family.repository.ResidentRepository;
 import com.example.family.service.FamilyRelationshipService;
-import com.example.family.service.ResidentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -25,18 +25,18 @@ import java.util.Map;
 @RequestMapping("/residents/{serialNumber}/relationship")
 public class FamilyRelationshipController {
 
-    private final ResidentService residentService;
+    private final ResidentRepository residentRepository;
     private final FamilyRelationshipService relationshipService;
 
     @ModelAttribute
     private Resident getBaseResident(@PathVariable int serialNumber) {
-        return residentService.getResident(serialNumber);
+        return residentRepository.getReferenceById(serialNumber);
     }
 
     @PostMapping
     private HttpEntity<Void> addRelation(@ModelAttribute Resident baseResident,
                                          @RequestBody FamilyRelationshipForm form) {
-        Resident familyResident = residentService.getResident(form.getFamilySerialNumber());
+        Resident familyResident = residentRepository.getReferenceById(form.getFamilySerialNumber());
         relationshipService.saveRelation(baseResident, familyResident, form);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -44,7 +44,7 @@ public class FamilyRelationshipController {
     @PutMapping("{familySerialNumber}")
     private HttpEntity<Void> updateRelation(@ModelAttribute Resident baseResident, @PathVariable int familySerialNumber,
                                             @RequestBody Map<String, FamilyRelationship.Relationship> form) {
-        Resident familyResident = residentService.getResident(familySerialNumber);
+        Resident familyResident = residentRepository.getReferenceById(familySerialNumber);
         relationshipService.updateRelation(baseResident, familyResident, form.get("relationship"));
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -52,7 +52,7 @@ public class FamilyRelationshipController {
     @DeleteMapping("{familySerialNumber}")
     private HttpEntity<Void> deleteRelation(@ModelAttribute Resident baseResident,
                                             @PathVariable int familySerialNumber) {
-        Resident familyResident = residentService.getResident(familySerialNumber);
+        Resident familyResident = residentRepository.getReferenceById(familySerialNumber);
         relationshipService.deleteRelation(baseResident, familyResident);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 

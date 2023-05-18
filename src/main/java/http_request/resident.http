@@ -43,3 +43,8 @@ Content-Type: application/json
   "birthPlaceCode": "자택",
   "registrationBaseAddress": "경기도 이천시"
 }
+
+###
+DELETE /residents/4 HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json

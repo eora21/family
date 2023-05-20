@@ -41,9 +41,9 @@ public class FamilyRelationship {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "family_relationship_code")
-    Relationship code;
+    FamilyRelationshipCode familyRelationshipCode;
 
-    public enum Relationship {
+    public enum FamilyRelationshipCode {
         부, 모, 배우자, 자녀
     }
 

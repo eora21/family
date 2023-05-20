@@ -1,11 +1,14 @@
 package com.example.family.service;
 
+import com.example.family.domain.ResidentDto;
 import com.example.family.domain.ResidentForm;
 import com.example.family.entity.Resident;
 import com.example.family.repository.HouseholdCompositionResidentRepository;
+import com.example.family.repository.HouseholdMovementAddressRepository;
 import com.example.family.repository.HouseholdRepository;
 import com.example.family.repository.ResidentRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,14 +21,15 @@ public class ResidentService {
     private final ResidentRepository residentRepository;
     private final HouseholdRepository householdRepository;
     private final HouseholdCompositionResidentRepository householdCompositionResidentRepository;
+    private final HouseholdMovementAddressRepository householdMovementAddressRepository;
 
     public Resident saveResident(ResidentForm residentForm) {
         return residentRepository.save(residentForm.toEntity());
     }
 
     @Transactional(readOnly = true)
-    public List<Resident> findAll() {
-        return residentRepository.findAll();
+    public List<ResidentDto> findAll() {
+        return residentRepository.findAllDtoBy();
     }
 
     public void modifyResident(int serialNumber, ResidentForm residentForm) {
@@ -49,7 +53,8 @@ public class ResidentService {
         }
 
         householdCompositionResidentRepository.deleteByResident_serialNumber(residentSerialNumber);
-        householdRepository.deleteByResident_serialNumber(residentSerialNumber);
+        List<Integer> householdSerialNumbers = householdRepository.deleteByResident_serialNumber(residentSerialNumber);
+        householdMovementAddressRepository.deleteAllByPk_HouseholdSerialNumber(householdSerialNumbers);
         residentRepository.deleteById(residentSerialNumber);
     }
 }

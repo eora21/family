@@ -1,7 +1,7 @@
 package com.example.family.controller;
 
+import com.example.family.domain.ResidentDto;
 import com.example.family.domain.ResidentForm;
-import com.example.family.entity.Resident;
 import com.example.family.service.ResidentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -38,7 +38,7 @@ public class ResidentController {
     }
 
     @GetMapping
-    public HttpEntity<List<Resident>> findAll() {
+    public HttpEntity<List<ResidentDto>> findAll() {
         return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
     }
 

@@ -1,5 +1,6 @@
 package com.example.family.repository;
 
+import com.example.family.domain.report.household.HouseholdMovementAddressDto;
 import com.example.family.entity.Household;
 import com.example.family.entity.HouseholdMovementAddress;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,5 +17,10 @@ public interface HouseholdMovementAddressRepository
             "from HouseholdMovementAddress h " +
             "where h.household = :household and h.lastAddress = 'Y'")
     List<HouseholdMovementAddress> findAllByHouseholdAndLastAddress_Y(@Param("household") Household household);
+
+    @Query("delete HouseholdMovementAddress h where h.pk.householdSerialNumber in :serialNumbers")
+    void deleteAllByPk_HouseholdSerialNumber(@Param("serialNumbers") List<Integer> serialNumbers);
+
+    List<HouseholdMovementAddressDto> findAllByHousehold(Household household);
 
 }

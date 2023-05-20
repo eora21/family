@@ -4,8 +4,9 @@ import com.example.family.entity.Household;
 import com.example.family.entity.Resident;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface HouseholdRepository extends JpaRepository<Household, Integer> {
-    boolean existsByResident(Resident resident);
+import java.util.List;
 
-    void deleteByResident_serialNumber(int residentSerialNumber);
+public interface HouseholdRepository extends JpaRepository<Household, Integer> {
+
+    List<Integer> deleteByResident_serialNumber(int residentSerialNumber);
 }

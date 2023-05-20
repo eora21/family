@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+<h1>INDEX</h1>
+<div sec:authorize="isAuthenticated()">
+    <span sec:authentication="principal.username"/>,&nbsp;
+    <a href="/logout">Logout</a>
+    <div sec:authorize="hasAuthority('ROLE_ADMIN')">
+        <li>
+            <a href="/residents">주민 목록</a>
+        </li>
+        <li>
+            <a href="/report/admin">증명서 발급 목록</a>
+        </li>
+    </div>
+    <div sec:authorize="hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')">
+        <li>
+            <a th:href="@{/report/user(certificateType=주민등록등본)}">주민등록등본</a>
+        </li>
+        <li>
+            <a th:href="@{/report/user(certificateType=가족관계증명서)}">가족관계증명서</a>
+        </li>
+    </div>
+</div>
+<div sec:authorize="!isAuthenticated()">
+    <a href="/login">로그인</a>
+</div>
+</body>
+</html>

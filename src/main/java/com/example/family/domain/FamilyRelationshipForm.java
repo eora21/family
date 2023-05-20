@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FamilyRelationshipForm {
     private int familySerialNumber;
-    private FamilyRelationship.Relationship relationship;
+    private FamilyRelationship.FamilyRelationshipCode familyRelationshipCode;
 }

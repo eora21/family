@@ -17,7 +17,8 @@ public class FamilyRelationshipService {
     @Transactional
     public void saveRelation(Resident baseResident, Resident familyResident, FamilyRelationshipForm form) {
         FamilyRelationship.FamilyRelationshipPk familyRelationshipPk =
-                new FamilyRelationship.FamilyRelationshipPk(familyResident.getSerialNumber(), baseResident.getSerialNumber());
+                new FamilyRelationship.FamilyRelationshipPk(
+                        familyResident.getSerialNumber(), baseResident.getSerialNumber());
 
         if (repository.existsById(familyRelationshipPk)) {
             throw new IllegalStateException("해당하는 관계가 이미 설정되어 있습니다.");
@@ -27,7 +28,7 @@ public class FamilyRelationshipService {
                 .pk(familyRelationshipPk)
                 .baseResident(baseResident)
                 .familyResident(familyResident)
-                .code(form.getRelationship())
+                .familyRelationshipCode(form.getFamilyRelationshipCode())
                 .build();
 
         repository.save(familyRelationship);
@@ -40,10 +41,10 @@ public class FamilyRelationshipService {
     }
 
     public void updateRelation(Resident baseResident, Resident familyResident,
-                               FamilyRelationship.Relationship relationship) {
+                               FamilyRelationship.FamilyRelationshipCode familyRelationshipCode) {
         FamilyRelationship familyRelationship =
                 getFamilyRelationship(familyResident.getSerialNumber(), baseResident.getSerialNumber());
-        familyRelationship.setCode(relationship);
+        familyRelationship.setFamilyRelationshipCode(familyRelationshipCode);
         repository.save(familyRelationship);
     }
 

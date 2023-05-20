@@ -43,7 +43,7 @@ public class FamilyRelationshipController {
 
     @PutMapping("{familySerialNumber}")
     private HttpEntity<Void> updateRelation(@ModelAttribute Resident baseResident, @PathVariable int familySerialNumber,
-                                            @RequestBody Map<String, FamilyRelationship.Relationship> form) {
+                                            @RequestBody Map<String, FamilyRelationship.FamilyRelationshipCode> form) {
         Resident familyResident = residentRepository.getReferenceById(familySerialNumber);
         relationshipService.updateRelation(baseResident, familyResident, form.get("relationship"));
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

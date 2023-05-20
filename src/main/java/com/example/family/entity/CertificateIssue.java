@@ -1,10 +1,15 @@
 package com.example.family.entity;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,11 +18,12 @@ import java.time.LocalDate;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "certificate_issue")
 public class CertificateIssue {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "certificate_confirmation_number")
     private Long confirmationNumber;
 
@@ -32,7 +38,13 @@ public class CertificateIssue {
     private LocalDate certificateIssueDate;
 
     public enum CertificateType {
-        가족관계증명서, 주민등록등본,
+        가족관계증명서, 주민등록등본, 출생신고서, 사망신고서
     }
 
+    @Builder
+    private CertificateIssue(Resident resident, CertificateType certificateType, LocalDate certificateIssueDate) {
+        this.resident = resident;
+        this.certificateType = certificateType;
+        this.certificateIssueDate = certificateIssueDate;
+    }
 }

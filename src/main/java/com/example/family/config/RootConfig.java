@@ -4,10 +4,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
@@ -16,8 +19,12 @@ import org.springframework.stereotype.Controller;
 import javax.sql.DataSource;
 
 @Configuration
+@RequiredArgsConstructor
+@PropertySource("classpath:db.properties")
 @ComponentScan(basePackages = "com.example.family", excludeFilters = @ComponentScan.Filter(Controller.class))
 public class RootConfig {
+
+    private final Environment env;
 
     @Bean
     public DataSourceInitializer dataSourceInitializer(DataSource dataSource) {
@@ -32,10 +39,10 @@ public class RootConfig {
     @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/nation?serverTimezone=Asia/Seoul");
-        dataSource.setUsername("root");
-        dataSource.setPassword("1447");
+        dataSource.setDriverClassName(env.getProperty("db.driverClassName"));
+        dataSource.setUrl(env.getProperty("db.url"));
+        dataSource.setUsername(env.getProperty("db.userName"));
+        dataSource.setPassword(env.getProperty("db.password"));
 
         dataSource.setInitialSize(10);
         dataSource.setMaxTotal(10);

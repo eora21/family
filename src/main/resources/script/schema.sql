@@ -8,29 +8,30 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- Schema mydb
 -- -----------------------------------------------------
 -- -----------------------------------------------------
--- Schema nation
+-- Schema nhn_academy_51
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema nation
+-- Schema nhn_academy_51
 -- -----------------------------------------------------
 
-DROP TABLE IF EXISTS `nation`.`resident`;
-DROP TABLE IF EXISTS `nation`.`birth_death_report_resident`;
-DROP TABLE IF EXISTS `nation`.`certificate_issue`;
-DROP TABLE IF EXISTS `nation`.`family_relationship`;
-DROP TABLE IF EXISTS `nation`.`household`;
-DROP TABLE IF EXISTS `nation`.`household_composition_resident`;
-DROP TABLE IF EXISTS `nation`.`household_movement_address`;
+DROP TABLE IF EXISTS `nhn_academy_51`.`resident`;
+DROP TABLE IF EXISTS `nhn_academy_51`.`birth_death_report_resident`;
+DROP TABLE IF EXISTS `nhn_academy_51`.`certificate_issue`;
+DROP TABLE IF EXISTS `nhn_academy_51`.`family_relationship`;
+DROP TABLE IF EXISTS `nhn_academy_51`.`household`;
+DROP TABLE IF EXISTS `nhn_academy_51`.`household_composition_resident`;
+DROP TABLE IF EXISTS `nhn_academy_51`.`household_movement_address`;
+DROP TABLE IF EXISTS `nhn_academy_51`.`users`;
 
-CREATE SCHEMA IF NOT EXISTS `nation` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
-USE `nation` ;
+CREATE SCHEMA IF NOT EXISTS `nhn_academy_51` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+USE `nhn_academy_51` ;
 
 -- -----------------------------------------------------
--- Table `nation`.`resident`
+-- Table `nhn_academy_51`.`resident`
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `nation`.`resident` (
+CREATE TABLE IF NOT EXISTS `nhn_academy_51`.`resident` (
     `resident_serial_number` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
     `resident_registration_number` VARCHAR(300) NOT NULL,
@@ -48,9 +49,9 @@ CREATE TABLE IF NOT EXISTS `nation`.`resident` (
 
 
 -- -----------------------------------------------------
--- Table `nation`.`birth_death_report_resident`
+-- Table `nhn_academy_51`.`birth_death_report_resident`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `nation`.`birth_death_report_resident` (
+CREATE TABLE IF NOT EXISTS `nhn_academy_51`.`birth_death_report_resident` (
     `birth_death_type_code` VARCHAR(20) NOT NULL,
     `resident_serial_number` INT NOT NULL,
     `report_resident_serial_number` INT NOT NULL,
@@ -63,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `nation`.`birth_death_report_resident` (
     INDEX `fk_birth_death_report_resident_resident1_idx` (`report_resident_serial_number` ASC) VISIBLE,
     CONSTRAINT `fk_birth_death_report_resident_resident1`
     FOREIGN KEY (`report_resident_serial_number`)
-    REFERENCES `nation`.`resident` (`resident_serial_number`)
+    REFERENCES `nhn_academy_51`.`resident` (`resident_serial_number`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
     ENGINE = InnoDB
@@ -72,9 +73,9 @@ CREATE TABLE IF NOT EXISTS `nation`.`birth_death_report_resident` (
 
 
 -- -----------------------------------------------------
--- Table `nation`.`certificate_issue`
+-- Table `nhn_academy_51`.`certificate_issue`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `nation`.`certificate_issue` (
+CREATE TABLE IF NOT EXISTS `nhn_academy_51`.`certificate_issue` (
     `certificate_confirmation_number` BIGINT NOT NULL AUTO_INCREMENT,
     `resident_serial_number` INT NOT NULL,
     `certificate_type_code` VARCHAR(20) NOT NULL,
@@ -83,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `nation`.`certificate_issue` (
     INDEX `fk_certificate_issue_resident1_idx` (`resident_serial_number` ASC) VISIBLE,
     CONSTRAINT `fk_certificate_issue_resident1`
     FOREIGN KEY (`resident_serial_number`)
-    REFERENCES `nation`.`resident` (`resident_serial_number`)
+    REFERENCES `nhn_academy_51`.`resident` (`resident_serial_number`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
     ENGINE = InnoDB
@@ -92,9 +93,9 @@ CREATE TABLE IF NOT EXISTS `nation`.`certificate_issue` (
 
 
 -- -----------------------------------------------------
--- Table `nation`.`family_relationship`
+-- Table `nhn_academy_51`.`family_relationship`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `nation`.`family_relationship` (
+CREATE TABLE IF NOT EXISTS `nhn_academy_51`.`family_relationship` (
     `base_resident_serial_number` INT NOT NULL,
     `family_resident_serial_number` INT NOT NULL,
     `family_relationship_code` VARCHAR(20) NOT NULL,
@@ -102,11 +103,11 @@ CREATE TABLE IF NOT EXISTS `nation`.`family_relationship` (
     INDEX `fk_family_relationship_resident1_idx` (`family_resident_serial_number` ASC) VISIBLE,
     CONSTRAINT `fk_family_relationship_resident1`
     FOREIGN KEY (`base_resident_serial_number`)
-    REFERENCES `nation`.`resident` (`resident_serial_number`)
+    REFERENCES `nhn_academy_51`.`resident` (`resident_serial_number`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
     FOREIGN KEY (`family_resident_serial_number`)
-    REFERENCES `nation`.`resident` (`resident_serial_number`)
+    REFERENCES `nhn_academy_51`.`resident` (`resident_serial_number`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
     ENGINE = InnoDB
@@ -115,9 +116,9 @@ CREATE TABLE IF NOT EXISTS `nation`.`family_relationship` (
 
 
 -- -----------------------------------------------------
--- Table `nation`.`household`
+-- Table `nhn_academy_51`.`household`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `nation`.`household` (
+CREATE TABLE IF NOT EXISTS `nhn_academy_51`.`household` (
     `household_serial_number` INT NOT NULL AUTO_INCREMENT,
     `household_resident_serial_number` INT NOT NULL,
     `household_composition_date` DATE NOT NULL,
@@ -127,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `nation`.`household` (
     INDEX `fk_household_resident1_idx` (`household_resident_serial_number` ASC) VISIBLE,
     CONSTRAINT `fk_household_resident1`
     FOREIGN KEY (`household_resident_serial_number`)
-    REFERENCES `nation`.`resident` (`resident_serial_number`)
+    REFERENCES `nhn_academy_51`.`resident` (`resident_serial_number`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
     ENGINE = InnoDB
@@ -136,9 +137,9 @@ CREATE TABLE IF NOT EXISTS `nation`.`household` (
 
 
 -- -----------------------------------------------------
--- Table `nation`.`household_composition_resident`
+-- Table `nhn_academy_51`.`household_composition_resident`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `nation`.`household_composition_resident` (
+CREATE TABLE IF NOT EXISTS `nhn_academy_51`.`household_composition_resident` (
     `household_serial_number` INT NOT NULL,
     `resident_serial_number` INT NOT NULL,
     `report_date` DATE NOT NULL,
@@ -149,12 +150,12 @@ CREATE TABLE IF NOT EXISTS `nation`.`household_composition_resident` (
     INDEX `fk_household_composition_resident_resident1_idx` (`resident_serial_number` ASC) VISIBLE,
     CONSTRAINT `fk_household_composition_resident_household`
     FOREIGN KEY (`household_serial_number`)
-    REFERENCES `nation`.`household` (`household_serial_number`)
+    REFERENCES `nhn_academy_51`.`household` (`household_serial_number`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
     CONSTRAINT `fk_household_composition_resident_resident1`
     FOREIGN KEY (`resident_serial_number`)
-    REFERENCES `nation`.`resident` (`resident_serial_number`)
+    REFERENCES `nhn_academy_51`.`resident` (`resident_serial_number`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
     ENGINE = InnoDB
@@ -163,9 +164,9 @@ CREATE TABLE IF NOT EXISTS `nation`.`household_composition_resident` (
 
 
 -- -----------------------------------------------------
--- Table `nation`.`household_movement_address`
+-- Table `nhn_academy_51`.`household_movement_address`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `nation`.`household_movement_address` (
+CREATE TABLE IF NOT EXISTS `nhn_academy_51`.`household_movement_address` (
     `house_movement_report_date` DATE NOT NULL,
     `household_serial_number` INT NOT NULL,
     `house_movement_address` VARCHAR(500) NOT NULL,
@@ -174,7 +175,22 @@ CREATE TABLE IF NOT EXISTS `nation`.`household_movement_address` (
     INDEX `fk_household_movement_address_household1_idx` (`household_serial_number` ASC) VISIBLE,
     CONSTRAINT `fk_household_movement_address_household1`
     FOREIGN KEY (`household_serial_number`)
-    REFERENCES `nation`.`household` (`household_serial_number`)
+    REFERENCES `nhn_academy_51`.`household` (`household_serial_number`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS `nhn_academy_51`.`users` (
+    `login_id` VARCHAR(30) NOT NULL,
+    `password` CHAR(60) NOT NULL,
+    `role` VARCHAR(60) NOT NULL,
+    `resident_serial_number` INT NOT NULL,
+    PRIMARY KEY (`login_id`),
+    CONSTRAINT `fk_users_resident1`
+    FOREIGN KEY (`resident_serial_number`)
+    REFERENCES `nhn_academy_51`.`resident` (`resident_serial_number`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
     ENGINE = InnoDB
@@ -253,4 +269,6 @@ commit;
 insert into certificate_issue values(1234567891011121, 4, '가족관계증명서', '20211025');
 insert into certificate_issue values(9876543210987654, 4, '주민등록등본', '20211025');
 
+insert into users values ('admin', 'admin', 'ROLE_ADMIN', 1);
+insert into users values ('user', 'user', 'ROLE_USER', 4);
 commit;

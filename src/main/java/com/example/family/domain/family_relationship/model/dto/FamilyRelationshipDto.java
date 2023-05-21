@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FamilyRelationshipDto {
     private FamilyRelationship.FamilyRelationshipCode familyRelationshipCode;
     private String name;

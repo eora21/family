@@ -45,7 +45,7 @@ public class FamilyRelationship {
     FamilyRelationshipCode familyRelationshipCode;
 
     public enum FamilyRelationshipCode {
-        부, 모, 배우자, 자녀
+        부, 모, 배우자, 자녀, 본인
     }
 
     @Embeddable

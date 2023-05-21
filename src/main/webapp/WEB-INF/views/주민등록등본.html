@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>주민등록등본</title>
+</head>
+<body>
+<h1>주민등록등본</h1>
+<h2>발급일: <span th:text="${certificate.certificateIssueDate}"/></h2>
+<h2>증명서확인번호: <span th:text="${certificate.certificateConfirmationNumber}"/></h2>
+<hr>
+<hr>
+<h3>세대주 성명: <span th:text="${certificate.certification.householdResidentName}"/></h3>
+<h3>세대구성 사유: <span th:text="${certificate.certification.compositionReasonCode}"/></h3>
+<h3>세대구성 일자: <span th:text="${certificate.certification.compositionDate}"/></h3>
+<hr>
+<hr>
+<div th:each="householdMovementAddress : ${certificate.certification.householdMovementAddresses}">
+    <p>주소: <span th:text="${householdMovementAddress.address}" /></p>
+    <p>신고일: <span th:text="${householdMovementAddress.pkReportDate}" /></p>
+    <hr>
+</div>
+<hr>
+<div th:each="householdCompositionResident : ${certificate.certification.householdCompositionResidents}">
+    <p>세대주 관계: <span th:text="${householdCompositionResident.relationshipCode}" /></p>
+    <p>성명: <span th:text="${householdCompositionResident.name}" /></p>
+    <p>주민등록번호: <span th:text="${householdCompositionResident.residentRegistrationNumber}" /></p>
+    <p>신고일: <span th:text="${householdCompositionResident.reportDate}" /></p>
+    <p>변동사유: <span th:text="${householdCompositionResident.compositionChangeReasonCode}" /></p>
+    <hr>
+</div>
+</body>
+</html>

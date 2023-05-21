@@ -96,8 +96,8 @@ CREATE TABLE IF NOT EXISTS `nhn_academy_51`.`certificate_issue` (
 -- Table `nhn_academy_51`.`family_relationship`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `nhn_academy_51`.`family_relationship` (
-    `base_resident_serial_number` INT NOT NULL,
     `family_resident_serial_number` INT NOT NULL,
+    `base_resident_serial_number` INT NOT NULL,
     `family_relationship_code` VARCHAR(20) NOT NULL,
     PRIMARY KEY (`base_resident_serial_number`, `family_resident_serial_number`),
     INDEX `fk_family_relationship_resident1_idx` (`family_resident_serial_number` ASC) VISIBLE,

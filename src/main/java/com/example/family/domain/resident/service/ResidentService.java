@@ -1,6 +1,8 @@
 package com.example.family.domain.resident.service;
 
+import com.example.family.domain.household.model.dto.HouseholdSerialNumberDto;
 import com.example.family.domain.resident.model.dto.ResidentDto;
+import com.example.family.domain.resident.model.dto.ResidentViewDto;
 import com.example.family.domain.resident.model.form.ResidentForm;
 import com.example.family.domain.resident.entity.Resident;
 import com.example.family.domain.household_composition_resident.repository.HouseholdCompositionResidentRepository;
@@ -8,10 +10,14 @@ import com.example.family.domain.household_movement_address.repository.Household
 import com.example.family.domain.household.repository.HouseholdRepository;
 import com.example.family.domain.resident.repository.ResidentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -27,8 +33,9 @@ public class ResidentService {
     }
 
     @Transactional(readOnly = true)
-    public List<ResidentDto> findAll() {
-        return residentRepository.findAllDtoBy();
+    public Page<ResidentViewDto> findAll(Pageable pageable) {
+        Page<ResidentDto> residents = residentRepository.findAllDtoBy(pageable);
+        return residents.map(ResidentViewDto::newInstance);
     }
 
     public void modifyResident(int serialNumber, ResidentForm residentForm) {
@@ -52,8 +59,7 @@ public class ResidentService {
         }
 
         householdCompositionResidentRepository.deleteByResident_serialNumber(residentSerialNumber);
-        List<Integer> householdSerialNumbers = householdRepository.deleteByResident_serialNumber(residentSerialNumber);
-        householdMovementAddressRepository.deleteAllByPk_HouseholdSerialNumber(householdSerialNumbers);
+        householdRepository.deleteAllByResident_serialNumber(residentSerialNumber);
         residentRepository.deleteById(residentSerialNumber);
     }
 }

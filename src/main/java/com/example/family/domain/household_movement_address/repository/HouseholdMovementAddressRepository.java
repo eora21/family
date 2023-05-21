@@ -18,8 +18,8 @@ public interface HouseholdMovementAddressRepository
     List<HouseholdMovementAddress> findAllByHouseholdAndLastAddress_Y(@Param("household") Household household);
 
     @Query("delete HouseholdMovementAddress h where h.pk.householdSerialNumber in :serialNumbers")
-    void deleteAllByPk_HouseholdSerialNumber(@Param("serialNumbers") List<Integer> serialNumbers);
+    void deleteAllByPk_HouseholdSerialNumber(@Param("serialNumbers") int[] serialNumbers);
 
-    List<HouseholdMovementAddressDto> findAllByHousehold(Household household);
+    List<HouseholdMovementAddressDto> findAllByHouseholdOrderByPk_reportDateDesc(Household household);
 
 }

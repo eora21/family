@@ -2,6 +2,7 @@ package com.example.family.domain.household_composition_resident.model.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
@@ -9,6 +10,7 @@ import java.time.LocalDate;
 import static com.example.family.domain.household_composition_resident.entity.HouseholdCompositionResident.CompositionChangeReasonCode;
 import static com.example.family.domain.household_composition_resident.entity.HouseholdCompositionResident.RelationshipCode;
 
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class HouseholdCompositionResidentDto {
     private RelationshipCode relationshipCode;

@@ -1,6 +1,4 @@
 
-i
-9src/main/java/com/example/family/init/AppInitializer.java,b/9/b97220fbd47409cbd48171e97876e2d9be5db2a3
 }
 Msrc/main/java/com/example/family/domain/HouseholdMovementAddressEditForm.java,d/0/d0dfaa7627ad22d2ebc37de36876a76176f0749d
 y
@@ -51,8 +49,6 @@ X
 (src/main/java/http_request/resident.http,b/a/baf680e667136555c35d5ffecd31f7bd20da6dc1
 \
 ,src/main/java/http_request/relationship.http,2/4/24c673d976482fcdf6f22f6d9b8e64eb6eb846cf
-7
-pom.xml,4/4/442292b8a7efeabbe4cc176709b833b1792140ec
 v
 Fsrc/main/java/com/example/family/service/CustomUserDetailsService.java,1/a/1a43e706a09bf6f0f85520e0c24d84a2d43887b2
 a
@@ -67,8 +63,6 @@ t
 Dsrc/main/java/com/example/family/repository/HouseholdRepository.java,7/5/753e6a20ac01e19f01d593ab01e6d302d32833fb
 e
 5src/main/java/com/example/family/domain/ErrorDto.java,c/6/c6d77a3b142e58082397b13350f6babfef9a8e43
-m
-=src/main/java/com/example/family/advice/ControllerAdvice.java,e/f/efd22cbfbeb4b059d78942cc6ddcf53ce156d89b
 c
 3src/main/java/com/example/family/entity/Report.java,5/b/5b3ff2814596f6581739befe113d32c5dc2c26d9
 n

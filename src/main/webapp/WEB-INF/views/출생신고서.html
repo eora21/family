@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>출생신고서</title>
+</head>
+<body>
+<h1>출생신고서</h1>
+<h2>신고일: <span th:text="${certificate.certification.reportDate}"/></h2>
+<h3>출생자</h3>
+<p>성명: <span th:text="${certificate.certification.name}"/></p>
+<p>성별: <span th:text="${certificate.certification.gender}"/></p>
+<p>출생일시: <span th:text="${certificate.certification.birthDateTime}"/></p>
+<p>출생장소: <span th:text="${certificate.certification.birthPlace}"/></p>
+<p>등록기준지(본적): <span th:text="${certificate.certification.registrationBaseAddress}"/></p>
+<br>
+<h3>부모</h3>
+<h4>부</h4>
+<p>성명: <span th:text="${certificate.certification.fatherName}"/></p>
+<p>주민등록번호: <span th:text="${certificate.certification.fatherRegistrationNumber}"/></p>
+<h4>모</h4>
+<p>성명: <span th:text="${certificate.certification.motherName}"/></p>
+<p>주민등록번호: <span th:text="${certificate.certification.motherRegistrationNumber}"/></p>
+<br>
+<h3>신고인</h3>
+<p>성명: <span th:text="${certificate.certification.reportResidentName}"/></p>
+<p>주민등록번호: <span th:text="${certificate.certification.reportRegistrationNumber}"/></p>
+<p>자격: <span th:text="${certificate.certification.birthReportQualificationsCode}"/></p>
+<p>이메일: <span th:text="${certificate.certification.email}"/></p>
+<p>전화번호: <span th:text="${certificate.certification.phoneNumber}"/></p>
+<br>
+</body>
+</html>

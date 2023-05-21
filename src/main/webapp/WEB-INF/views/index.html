@@ -9,22 +9,22 @@
 <body>
 <h1>INDEX</h1>
 <div sec:authorize="isAuthenticated()">
-    <span sec:authentication="principal.username"/>,&nbsp;
+    <span sec:authentication="name"/>,&nbsp;
     <a href="/logout">Logout</a>
     <div sec:authorize="hasAuthority('ROLE_ADMIN')">
         <li>
             <a href="/residents">주민 목록</a>
         </li>
         <li>
-            <a href="/report/admin">증명서 발급 목록</a>
+            <a href="/certificate/log">증명서 발급 목록</a>
         </li>
     </div>
     <div sec:authorize="hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')">
         <li>
-            <a th:href="@{/report/user(certificateType=주민등록등본)}">주민등록등본</a>
+            <a th:href="@{/certificate(certificateType=주민등록등본)}">주민등록등본</a>
         </li>
         <li>
-            <a th:href="@{/report/user(certificateType=가족관계증명서)}">가족관계증명서</a>
+            <a th:href="@{/certificate(certificateType=가족관계증명서)}">가족관계증명서</a>
         </li>
     </div>
 </div>

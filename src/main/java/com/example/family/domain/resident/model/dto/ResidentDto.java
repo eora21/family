@@ -1,25 +1,12 @@
 package com.example.family.domain.resident.model.dto;
 
-import com.example.family.domain.resident.entity.Resident;
+import com.example.family.domain.report.entity.Report;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 public interface ResidentDto {
+    int getSerialNumber();
     String getName();
-
-    String getRegistrationNumber();
-
-    String getGender();
-
-    LocalDateTime getBirthDate();
-
-    Resident.BirthPlace getBirthPlaceCode();
-
-    String getRegistrationBaseAddress();
-
-    LocalDateTime getDeathDate();
-
-    Resident.DeathPlace getDeathPlaceCode();
-
-    String getDeathPlaceAddress();
+    List<Report> getReports();
 }
+

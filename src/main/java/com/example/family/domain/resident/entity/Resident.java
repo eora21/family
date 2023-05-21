@@ -1,23 +1,16 @@
 package com.example.family.domain.resident.entity;
 
+import com.example.family.domain.certificate_issue.entity.CertificateIssue;
 import com.example.family.domain.family_relationship.entity.FamilyRelationship;
 import com.example.family.domain.report.entity.Report;
+import com.example.family.domain.user.entity.User;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -82,8 +75,14 @@ public class Resident {
     @OneToMany(mappedBy = "reportResident", cascade = CascadeType.REMOVE)
     private List<Report> myReports;
 
+    @OneToOne(mappedBy = "resident", cascade = CascadeType.REMOVE)
+    private User user;
+
+    @OneToMany(mappedBy = "resident", cascade = CascadeType.REMOVE)
+    private List<CertificateIssue> certificateIssues;
+
     public enum Gender {
-        남, 여
+        남, 여,
     }
 
     public enum BirthPlace {

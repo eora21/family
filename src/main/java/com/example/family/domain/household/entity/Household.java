@@ -1,22 +1,16 @@
 package com.example.family.domain.household.entity;
 
+import com.example.family.domain.household_movement_address.entity.HouseholdMovementAddress;
 import com.example.family.domain.resident.entity.Resident;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -41,6 +35,10 @@ public class Household {
 
     @Column(name = "current_house_movement_address")
     private String currentAddress;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "household", cascade = CascadeType.REMOVE)
+    private List<HouseholdMovementAddress> householdMovementAddress;
 
     public enum CompositionReasonCode {
         세대분리,

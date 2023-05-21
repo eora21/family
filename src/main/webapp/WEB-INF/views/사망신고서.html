@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>사망신고서</title>
+</head>
+<body>
+<h1>사망신고서</h1>
+<h2>신고일: <span th:text="${certificate.certification.reportDate}"/></h2>
+<h3>사망자</h3>
+<p>성명: <span th:text="${certificate.certification.name}"/></p>
+<p>주민등록번호: <span th:text="${certificate.certification.registrationNumber}"/></p>
+<h4>사망장소</h4>
+<p>구분: <span th:text="${certificate.certification.deathPlace}"/></p>
+<p>주소: <span th:text="${certificate.certification.deathPlaceAddress}"/></p>
+<br>
+<h3>신고인</h3>
+<p>성명: <span th:text="${certificate.certification.reportResidentName}"/></p>
+<p>주민등록번호: <span th:text="${certificate.certification.reportRegistrationNumber}"/></p>
+<p>자격: <span th:text="${certificate.certification.deathReportQualificationsCode}"/></p>
+<p>이메일: <span th:text="${certificate.certification.email}"/></p>
+<p>전화번호: <span th:text="${certificate.certification.phoneNumber}"/></p>
+<br>
+</body>
+</html>

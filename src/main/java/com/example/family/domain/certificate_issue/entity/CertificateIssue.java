@@ -6,14 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -32,6 +25,7 @@ public class CertificateIssue {
     private Resident resident;
 
     @Column(name = "certificate_type_code")
+    @Enumerated(EnumType.STRING)
     private CertificateType certificateType;
 
     @Column(name = "certificate_issue_date")

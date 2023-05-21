@@ -9,9 +9,11 @@ import org.springframework.context.MessageSourceAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -30,6 +32,7 @@ import java.util.List;
 
 @EnableWebMvc
 @Configuration
+@EnableSpringDataWebSupport
 @ComponentScan(basePackages = {"com.example.family.domain.**.controller", "com.example.family.advice"})
 public class WebConfig implements WebMvcConfigurer, ApplicationContextAware, MessageSourceAware {
 

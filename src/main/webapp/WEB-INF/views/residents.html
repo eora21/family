@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Residents</title>
+</head>
+<body>
+<h1>주민 목록</h1>
+<div th:each="resident : ${residents.content}">
+    <span>이름: <span th:text="${resident.name}"/></span>
+    <a th:href="@{'/certificate/' + ${resident.serialNumber}(certificateType=주민등록등본)}">주민등록등본</a>
+    <a th:href="@{'/certificate/' + ${resident.serialNumber}(certificateType=가족관계증명서)}">가족관계증명서</a>
+    <span th:if="${#bools.isTrue(resident.hasBirthReport)}">
+        <a th:href="@{'/certificate/' + ${resident.serialNumber}(certificateType=출생신고서)}">출생신고서</a>
+    </span>
+    <span th:if="${#bools.isTrue(resident.hasDeathReport)}">
+        <a th:href="@{'/certificate/' + ${resident.serialNumber}(certificateType=사망신고서)}">사망신고서</a>
+    </span>
+    <form th:action="@{|/residents/view/${resident.serialNumber}|}" th:method="delete">
+        <button type="submit">삭제</button>
+    </form>
+    <hr>
+</div>
+<div th:if="${#bools.isFalse(residents.first)}">
+    <a th:href="@{residents(page=${residents.number - 1})}">이전 페이지</a>
+</div>
+<div th:if="${#bools.isFalse(residents.last)}">
+    <a th:href="@{residents(page=${residents.number + 1})}">다음 페이지</a>
+</div>
+</body>
+</html>

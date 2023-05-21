@@ -1,6 +1,5 @@
 package com.example.family.advice;
 
-import com.example.family.domain.ErrorDto;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

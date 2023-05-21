@@ -17,7 +17,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "com.example.family.repository")
+@EnableJpaRepositories(basePackages = "com.example.family.domain.**.repository")
 public class JpaConfig {
 
     @Bean

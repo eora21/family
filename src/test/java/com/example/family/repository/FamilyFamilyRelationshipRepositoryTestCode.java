@@ -2,6 +2,7 @@ package com.example.family.repository;
 
 import com.example.family.config.RootConfig;
 import com.example.family.config.WebConfig;
+import com.example.family.domain.family_relationship.repository.FamilyRelationshipRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

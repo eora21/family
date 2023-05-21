@@ -1,6 +1,6 @@
 package com.example.family.config;
 
-import com.example.family.service.CustomUserDetailsService;
+import com.example.family.domain.user.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;

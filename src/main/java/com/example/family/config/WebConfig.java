@@ -30,7 +30,7 @@ import java.util.List;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan(basePackages = {"com.example.family.controller", "com.example.family.advice"})
+@ComponentScan(basePackages = {"com.example.family.domain.**.controller", "com.example.family.advice"})
 public class WebConfig implements WebMvcConfigurer, ApplicationContextAware, MessageSourceAware {
 
     private final ObjectMapper objectMapper;

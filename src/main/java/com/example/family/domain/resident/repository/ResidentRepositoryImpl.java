@@ -1,9 +1,9 @@
 package com.example.family.domain.resident.repository;
 
+import com.example.family.domain.household.entity.QHousehold;
 import com.example.family.domain.household_composition_resident.entity.HouseholdCompositionResident;
-import com.example.family.entity.QHousehold;
-import com.example.family.entity.QHouseholdCompositionResident;
-import com.example.family.entity.QResident;
+import com.example.family.domain.household_composition_resident.entity.QHouseholdCompositionResident;
+import com.example.family.domain.resident.entity.QResident;
 import com.example.family.domain.resident.entity.Resident;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 

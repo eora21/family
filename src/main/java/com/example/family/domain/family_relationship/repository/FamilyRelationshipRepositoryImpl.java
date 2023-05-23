@@ -1,10 +1,10 @@
 package com.example.family.domain.family_relationship.repository;
 
-import com.example.family.domain.family_relationship.model.dto.FamilyRelationshipDto;
-import com.example.family.model.report.family.QFamilyRelationshipDto;
 import com.example.family.domain.family_relationship.entity.FamilyRelationship;
-import com.example.family.entity.QFamilyRelationship;
-import com.example.family.entity.QResident;
+import com.example.family.domain.family_relationship.entity.QFamilyRelationship;
+import com.example.family.domain.family_relationship.model.dto.FamilyRelationshipDto;
+import com.example.family.domain.family_relationship.model.dto.QFamilyRelationshipDto;
+import com.example.family.domain.resident.entity.QResident;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.util.List;
